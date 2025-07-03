@@ -1,0 +1,82 @@
+---
+title: 'List Workspaces'
+api: 'GET /api/v1/workspaces'
+description: 'Retrieve all workspaces the user has access to'
+---
+
+## List Workspaces
+
+Retrieves a list of all workspaces the authenticated user is a member of.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+### Response
+
+<ResponseField name="data" type="Array<Workspace>">
+  Array of Workspace objects
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Marketing Team",
+      "accountsCount": 5,
+      "members": [
+        {
+          "id": 1,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "role": "owner"
+        },
+        {
+          "id": 2,
+          "name": "Jane Smith",
+          "email": "jane@example.com",
+          "role": "member"
+        }
+      ],
+      "createdAt": "2023-06-15T08:00:00Z",
+      "updatedAt": "2023-06-15T08:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Support Team",
+      "accountsCount": 3,
+      "members": [
+        {
+          "id": 1,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "role": "member"
+        },
+        {
+          "id": 3,
+          "name": "Mike Johnson",
+          "email": "mike@example.com",
+          "role": "owner"
+        }
+      ],
+      "createdAt": "2023-07-10T14:30:00Z",
+      "updatedAt": "2023-07-10T14:30:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'workspaces' permission
+</ResponseField> 

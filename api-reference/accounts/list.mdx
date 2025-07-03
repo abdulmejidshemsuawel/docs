@@ -1,0 +1,79 @@
+---
+title: 'List Accounts'
+api: 'GET /api/v1/accounts'
+description: 'Retrieve all social media accounts'
+---
+
+## List Accounts
+
+Retrieves a list of all social media accounts across all workspaces the authenticated user has access to.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+### Response
+
+<ResponseField name="data" type="Array<Account>">
+  Array of Account objects
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Company Twitter",
+      "provider": "twitter",
+      "username": "@companybrand",
+      "picture": "https://pbs.twimg.com/profile_images/company_logo.jpg",
+      "workspace": {
+        "id": 1,
+        "name": "Marketing Team"
+      },
+      "createdAt": "2023-09-15T10:00:00Z",
+      "updatedAt": "2023-09-15T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Company Instagram",
+      "provider": "instagram",
+      "username": "companybrand",
+      "picture": "https://scontent.cdninstagram.com/company_logo.jpg",
+      "workspace": {
+        "id": 1,
+        "name": "Marketing Team"
+      },
+      "createdAt": "2023-09-15T11:30:00Z",
+      "updatedAt": "2023-09-15T11:30:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Support Twitter",
+      "provider": "twitter",
+      "username": "@companysupport",
+      "picture": "https://pbs.twimg.com/profile_images/support_logo.jpg",
+      "workspace": {
+        "id": 2,
+        "name": "Support Team"
+      },
+      "createdAt": "2023-10-01T09:15:00Z",
+      "updatedAt": "2023-10-01T09:15:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'accounts' permission
+</ResponseField> 

@@ -1,0 +1,115 @@
+---
+title: 'Update Campaign'
+api: 'PUT /api/v1/campaigns/{campaign_id}'
+description: 'Update an existing campaign'
+---
+
+## Update Campaign
+
+Updates the details of an existing campaign.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField header="Content-Type" required>
+  application/json
+</ParamField>
+
+<ParamField path="campaign_id" type="integer" required>
+  The unique identifier of the campaign to update
+</ParamField>
+
+<ParamField body="name" type="string">
+  The updated name of the campaign (max 100 characters)
+</ParamField>
+
+<ParamField body="description" type="string">
+  The updated description of the campaign purpose (max 500 characters)
+</ParamField>
+
+<ParamField body="color" type="string">
+  The updated hex color code for visual identification of the campaign
+</ParamField>
+
+<RequestExample>
+```json
+{
+  "name": "Holiday Season 2023 - Extended",
+  "description": "Content for holiday season promotions, extended through January",
+  "color": "#1e88e5"
+}
+```
+</RequestExample>
+
+### Response
+
+<ResponseField name="id" type="integer">
+  Unique identifier of the campaign
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The updated name of the campaign
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  The updated description of the campaign
+</ResponseField>
+
+<ResponseField name="color" type="string">
+  The updated hex color code of the campaign
+</ResponseField>
+
+<ResponseField name="workspace" type="object">
+  Information about the campaign's workspace
+</ResponseField>
+
+<ResponseField name="postsCount" type="integer">
+  The number of posts associated with this campaign
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Creation timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Last update timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "id": 4,
+  "name": "Holiday Season 2023 - Extended",
+  "description": "Content for holiday season promotions, extended through January",
+  "color": "#1e88e5",
+  "workspace": {
+    "id": 1,
+    "name": "Marketing Team"
+  },
+  "postsCount": 12,
+  "createdAt": "2023-11-15T09:45:00Z",
+  "updatedAt": "2023-11-25T14:30:00Z"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="400" type="Bad Request">
+  Validation errors or invalid parameters
+</ResponseField>
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'campaigns' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Campaign not found or user doesn't have access to the campaign's workspace
+</ResponseField> 

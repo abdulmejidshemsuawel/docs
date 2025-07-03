@@ -1,0 +1,76 @@
+---
+title: 'List Labels'
+api: 'GET /api/v1/labels'
+description: 'Retrieve all labels from your workspaces'
+---
+
+## List Labels
+
+Retrieves a list of all labels across all workspaces the authenticated user has access to.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+### Response
+
+<ResponseField name="data" type="Array<Label>">
+  Array of Label objects
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Product Launch",
+      "color": "#ff0000",
+      "workspace": {
+        "id": 1,
+        "name": "Marketing Team"
+      },
+      "postsCount": 12,
+      "createdAt": "2023-08-15T09:00:00Z",
+      "updatedAt": "2023-08-15T09:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Customer Testimonial",
+      "color": "#00ff00",
+      "workspace": {
+        "id": 1,
+        "name": "Marketing Team"
+      },
+      "postsCount": 8,
+      "createdAt": "2023-08-15T09:15:00Z",
+      "updatedAt": "2023-08-15T09:15:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Tips & Tricks",
+      "color": "#0000ff",
+      "workspace": {
+        "id": 2,
+        "name": "Support Team"
+      },
+      "postsCount": 27,
+      "createdAt": "2023-09-01T14:30:00Z",
+      "updatedAt": "2023-09-01T14:30:00Z"
+    }
+  ]
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'labels' permission
+</ResponseField> 

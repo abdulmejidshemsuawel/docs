@@ -1,0 +1,218 @@
+---
+title: 'Update Post'
+api: 'PUT /api/v1/posts/{post_id}'
+description: 'Update an existing post'
+---
+
+## Update Post
+
+Updates an existing scheduled or draft post. Published posts cannot be updated.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField header="Content-Type" required>
+  application/json
+</ParamField>
+
+<ParamField path="post_id" type="string" required>
+  The unique identifier of the post to update
+</ParamField>
+
+<ParamField body="campaign_id" type="integer">
+  Optional ID of the campaign to associate with this post
+</ParamField>
+
+<ParamField body="labels" type="array">
+  Optional array of label IDs to apply to this post
+</ParamField>
+
+<ParamField body="content" type="string" required="Media or content required">
+  The text content of the post. Required if no media is provided.
+</ParamField>
+
+<ParamField body="schedule_for" type="string (ISO 8601 date)">
+  The date and time to schedule the post. If the post was already scheduled, provide a new date to reschedule.
+</ParamField>
+
+<ParamField body="repeatable" type="boolean">
+  Whether the post should be repeated
+</ParamField>
+
+<ParamField body="repeatable_times" type="integer" default="0" min="2" max="30">
+  Number of times to repeat the post. Required if repeatable is true.
+</ParamField>
+
+<ParamField body="repeatable_gap" type="integer" min="1" max="100">
+  Time gap between repeats. Required if repeatable is true.
+</ParamField>
+
+<ParamField body="repeatable_gap_unit" type="string" default="days">
+  The unit for the repeatable gap. Must be one of: "days", "weeks", "months". Required if repeatable is true.
+</ParamField>
+
+<ParamField body="accounts" type="array" required>
+  Array of account objects to publish to
+  
+  <Expandable title="Account Object">
+    <ParamField body="id" type="integer" required>
+      The ID of the social media account
+    </ParamField>
+    
+    <ParamField body="settings" type="object">
+      Optional platform-specific settings for this post
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<RequestExample>
+```json
+{
+  "campaign_id": 5,
+  "labels": [2, 7],
+  "content": "Updated content for our winter collection announcement! ❄️ #winterfashion",
+  "schedule_for": "2023-12-20T15:30:00Z",
+  "repeatable": false,
+  "accounts": [
+    {
+      "id": 1,
+      "settings": {
+        "twitter": {
+          "reply_settings": "mentionedUsers"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "settings": {
+        "facebook": {
+          "privacy": "public"
+        }
+      }
+    }
+  ]
+}
+```
+</RequestExample>
+
+### Response
+
+<ResponseField name="id" type="string">
+  Unique identifier for the updated post
+</ResponseField>
+
+<ResponseField name="uuid" type="string">
+  UUID of the updated post
+</ResponseField>
+
+<ResponseField name="content" type="string">
+  The updated text content of the post
+</ResponseField>
+
+<ResponseField name="scheduleType" type="string">
+  Type of schedule (post_now or schedule)
+</ResponseField>
+
+<ResponseField name="scheduleFor" type="string">
+  Updated scheduled date and time (ISO 8601)
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Status of the post (draft, scheduled, published, failed)
+</ResponseField>
+
+<ResponseField name="isRepeatable" type="boolean">
+  Whether the post is set to repeat
+</ResponseField>
+
+<ResponseField name="workspace" type="object">
+  Information about the post's workspace
+</ResponseField>
+
+<ResponseField name="media" type="array">
+  Array of media attachments
+</ResponseField>
+
+<ResponseField name="labels" type="array">
+  Updated array of labels attached to the post
+</ResponseField>
+
+<ResponseField name="campaign" type="object">
+  Updated campaign information if associated
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Creation timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Last update timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "id": "123",
+  "uuid": "abc123-456",
+  "content": "Updated content for our winter collection announcement! ❄️ #winterfashion",
+  "scheduleType": "schedule",
+  "scheduleFor": "2023-12-20T15:30:00Z",
+  "status": "scheduled",
+  "isRepeatable": false,
+  "workspace": {
+    "id": 1,
+    "name": "Marketing Team"
+  },
+  "media": [
+    {
+      "id": 5,
+      "url": "https://cdn.postmaster.io/media/winter-collection-processed.jpg",
+      "type": "image"
+    }
+  ],
+  "labels": [
+    {
+      "id": 2,
+      "name": "Winter Fashion",
+      "color": "#00ff00"
+    },
+    {
+      "id": 7,
+      "name": "Collection",
+      "color": "#ff00ff"
+    }
+  ],
+  "campaign": {
+    "id": 5,
+    "name": "End of Year Sales"
+  },
+  "createdAt": "2023-12-01T09:30:00Z",
+  "updatedAt": "2023-12-05T14:25:10Z"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="400" type="Bad Request">
+  Validation errors, invalid parameters
+</ResponseField>
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'posts' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Post not found or access denied to the post's workspace
+</ResponseField>
+
+<ResponseField name="422" type="Unprocessable Entity">
+  Cannot update a post that has already been published
+</ResponseField> 

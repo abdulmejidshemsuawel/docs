@@ -1,0 +1,47 @@
+---
+title: 'Delete Campaign'
+api: 'DELETE /api/v1/campaigns/{campaign_id}'
+description: 'Delete an existing campaign'
+---
+
+## Delete Campaign
+
+Permanently deletes a campaign. This will remove the campaign association from any posts, but the posts themselves will not be deleted.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField path="campaign_id" type="integer" required>
+  The unique identifier of the campaign to delete
+</ParamField>
+
+### Response
+
+<ResponseField name="message" type="string">
+  Confirmation message
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "message": "Campaign deleted successfully"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'campaigns' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Campaign not found or user doesn't have access to the campaign's workspace
+</ResponseField> 

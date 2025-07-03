@@ -1,33 +1,92 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: 'PostMaster API'
+description: 'Powerful API for managing your social media scheduling'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Welcome to PostMaster API
 
-## Welcome
+PostMaster offers a powerful RESTful API that allows you to programmatically manage your social media scheduling workflows. With our API, you can create, update, and delete posts, manage social media accounts, organize content with campaigns and labels, and automate your social media strategy across multiple platforms.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Supported Platforms
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+PostMaster supports scheduling and publishing content to the following social media platforms:
+
+- Twitter / X
+- Facebook
+- Instagram
+- TikTok
+- YouTube
+- Pinterest
+- Threads
+- Telegram
+- LinkedIn
+- Bluesky
+
+## API Versions
+
+Our API is versioned to ensure backward compatibility as we continue to improve and expand our features.
+
+| Version | Status | Base URL |
+|---------|--------|----------|
+| v1      | Current | `https://app.postmaster.io/api/v1` |
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API requests must be authenticated using a Bearer token. You can generate API tokens from your PostMaster account.
+
+### Generating API Tokens
+
+1. Log in to your PostMaster account
+2. Navigate to your Account Profile
+3. Scroll down to the "API Tokens" section
+4. Click "Create Token"
+5. Select the necessary permissions for your use case
+6. Copy your new token and store it securely
+
+### Available Permissions
+
+When creating an API token, you can grant any combination of the following permissions:
+
+- `posts` - Create, read, update and delete posts
+- `accounts` - View and manage social media accounts
+- `campaigns` - Create and manage campaigns
+- `labels` - Create and manage content labels
+- `workspaces` - View and manage workspaces
+
+### Using Your Token
+
+Include your API token in the Authorization header of all requests:
+
+```bash
+Authorization: Bearer YOUR_API_TOKEN
+```
+
+<Warning>
+  Keep your API tokens secure! They grant access to your PostMaster account and should be treated like passwords. Never share your tokens publicly or commit them to version control.
+</Warning>
+
+## Rate Limiting
+
+To ensure service stability, the API is subject to rate limiting. Current limits are 60 requests per minute per token. If you exceed this limit, you'll receive a `429 Too Many Requests` response.
+
+## Response Format
+
+All API responses are returned in JSON format and include appropriate HTTP status codes.
+
+### Successful Responses
+
+Successful responses will have HTTP status codes in the `2xx` range and contain the requested data.
+
+### Error Responses
+
+Error responses will have HTTP status codes in the `4xx` or `5xx` range and include an error message:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "error": {
+    "message": "The provided token doesn't have permission to access this resource",
+    "type": "authentication_error",
+    "code": 403
   }
-]
+}
 ```

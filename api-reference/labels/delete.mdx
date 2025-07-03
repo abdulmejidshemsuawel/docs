@@ -1,0 +1,47 @@
+---
+title: 'Delete Label'
+api: 'DELETE /api/v1/labels/{label_id}'
+description: 'Delete an existing label'
+---
+
+## Delete Label
+
+Permanently deletes a label. This will remove the label association from any posts, but the posts themselves will not be deleted.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField path="label_id" type="integer" required>
+  The unique identifier of the label to delete
+</ParamField>
+
+### Response
+
+<ResponseField name="message" type="string">
+  Confirmation message
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "message": "Label deleted successfully"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'labels' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Label not found or user doesn't have access to the label's workspace
+</ResponseField> 

@@ -1,0 +1,106 @@
+---
+title: 'Create Label'
+api: 'POST /api/v1/labels'
+description: 'Create a new label for categorizing posts'
+---
+
+## Create Label
+
+Creates a new label to help categorize and filter your social media posts.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField header="Content-Type" required>
+  application/json
+</ParamField>
+
+<ParamField body="workspace_id" type="integer" required>
+  The ID of the workspace where the label will be created
+</ParamField>
+
+<ParamField body="name" type="string" required>
+  The name of the label (max 50 characters)
+</ParamField>
+
+<ParamField body="color" type="string">
+  Hex color code for visual identification of the label (e.g., "#ff0000" for red)
+</ParamField>
+
+<RequestExample>
+```json
+{
+  "workspace_id": 1,
+  "name": "Promotional Content",
+  "color": "#9c27b0"
+}
+```
+</RequestExample>
+
+### Response
+
+<ResponseField name="id" type="integer">
+  Unique identifier for the created label
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The name of the label
+</ResponseField>
+
+<ResponseField name="color" type="string">
+  Hex color code of the label
+</ResponseField>
+
+<ResponseField name="workspace" type="object">
+  Information about the label's workspace
+</ResponseField>
+
+<ResponseField name="postsCount" type="integer">
+  The number of posts associated with this label (0 for new labels)
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Creation timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Last update timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "id": 4,
+  "name": "Promotional Content",
+  "color": "#9c27b0",
+  "workspace": {
+    "id": 1,
+    "name": "Marketing Team"
+  },
+  "postsCount": 0,
+  "createdAt": "2023-11-22T11:30:00Z",
+  "updatedAt": "2023-11-22T11:30:00Z"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="400" type="Bad Request">
+  Validation errors or invalid parameters
+</ResponseField>
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'labels' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Workspace not found or user doesn't have access to it
+</ResponseField> 

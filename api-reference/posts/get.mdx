@@ -1,0 +1,147 @@
+---
+title: 'Get Post'
+api: 'GET /api/v1/posts/{post_id}'
+description: 'Retrieve a specific post by ID'
+---
+
+## Get Post
+
+Retrieves detailed information about a specific post.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField path="post_id" type="string" required>
+  The unique identifier of the post to retrieve
+</ParamField>
+
+### Response
+
+<ResponseField name="id" type="string">
+  Unique identifier for the post
+</ResponseField>
+
+<ResponseField name="uuid" type="string">
+  UUID of the post
+</ResponseField>
+
+<ResponseField name="content" type="string">
+  The text content of the post
+</ResponseField>
+
+<ResponseField name="scheduleType" type="string">
+  Type of schedule (post_now or schedule)
+</ResponseField>
+
+<ResponseField name="scheduleFor" type="string">
+  Scheduled date and time (ISO 8601)
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Status of the post (draft, scheduled, published, failed)
+</ResponseField>
+
+<ResponseField name="isRepeatable" type="boolean">
+  Whether the post is set to repeat
+</ResponseField>
+
+<ResponseField name="workspace" type="object">
+  Information about the post's workspace
+</ResponseField>
+
+<ResponseField name="media" type="array">
+  Array of media attachments
+</ResponseField>
+
+<ResponseField name="labels" type="array">
+  Array of labels attached to the post
+</ResponseField>
+
+<ResponseField name="campaign" type="object">
+  Campaign information if associated
+</ResponseField>
+
+<ResponseField name="platformPosts" type="array">
+  Array of platform-specific post details
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Creation timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Last update timestamp (ISO 8601)
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "id": "123",
+  "uuid": "abc123-456",
+  "content": "Check out our new product line! #innovation",
+  "scheduleType": "schedule",
+  "scheduleFor": "2023-12-10T15:00:00Z",
+  "status": "published",
+  "isRepeatable": false,
+  "workspace": {
+    "id": 1,
+    "name": "Marketing Team"
+  },
+  "media": [
+    {
+      "id": 1,
+      "url": "https://cdn.postmaster.io/media/product-launch.jpg",
+      "type": "image"
+    }
+  ],
+  "labels": [
+    {
+      "id": 1,
+      "name": "Product Launch",
+      "color": "#ff0000"
+    }
+  ],
+  "campaign": {
+    "id": 1,
+    "name": "Q4 Product Launch"
+  },
+  "platformPosts": [
+    {
+      "platform": "twitter",
+      "platformPostId": "1234567890",
+      "url": "https://twitter.com/yourbrand/status/1234567890",
+      "status": "published",
+      "publishedAt": "2023-12-10T15:00:10Z",
+      "errors": null
+    },
+    {
+      "platform": "instagram",
+      "platformPostId": "9876543210",
+      "url": "https://instagram.com/p/ABC123xyz",
+      "status": "published",
+      "publishedAt": "2023-12-10T15:00:15Z",
+      "errors": null
+    }
+  ],
+  "createdAt": "2023-12-01T10:00:00Z",
+  "updatedAt": "2023-12-10T15:00:15Z"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'posts' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Post not found or access denied to the post's workspace
+</ResponseField> 

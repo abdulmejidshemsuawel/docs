@@ -1,0 +1,87 @@
+---
+title: 'List Posts'
+api: 'GET /api/v1/posts'
+description: 'Retrieve a paginated list of your posts'
+---
+
+## List Posts
+
+Retrieves a paginated list of all your posts across your active workspaces. Posts are sorted by creation date in descending order.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+### Response
+
+<ResponseField name="data" type="Array<Post>">
+  Array of Post objects
+</ResponseField>
+
+<ResponseField name="links" type="Object">
+  Pagination links
+</ResponseField>
+
+<ResponseField name="meta" type="Object">
+  Pagination metadata
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "data": [
+    {
+      "id": "1",
+      "uuid": "efg456-789",
+      "content": "Check out our latest product updates!",
+      "scheduleType": "schedule",
+      "scheduleFor": "2023-12-10T15:30:00Z",
+      "status": "scheduled",
+      "isRepeatable": false,
+      "workspace": {
+        "id": 1,
+        "name": "Marketing Team"
+      },
+      "media": [
+        {
+          "id": 1,
+          "url": "https://cdn.postmaster.io/media/abc123.jpg",
+          "type": "image"
+        }
+      ],
+      "labels": [
+        {
+          "id": 1,
+          "name": "Product Updates",
+          "color": "#00ff00"
+        }
+      ],
+      "campaign": {
+        "id": 1,
+        "name": "Winter Campaign 2023"
+      },
+      "createdAt": "2023-12-01T10:15:30Z",
+      "updatedAt": "2023-12-01T10:15:30Z"
+    }
+  ],
+  "links": {
+    "first": "https://app.postmaster.io/api/v1/posts?page=1",
+    "last": "https://app.postmaster.io/api/v1/posts?page=5",
+    "prev": null,
+    "next": "https://app.postmaster.io/api/v1/posts?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 5,
+    "per_page": 10,
+    "to": 10,
+    "total": 47
+  }
+}
+```
+</ResponseExample>
+
+The response includes posts from all active workspaces the authenticated user has access to. 

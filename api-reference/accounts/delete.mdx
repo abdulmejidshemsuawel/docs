@@ -1,0 +1,47 @@
+---
+title: 'Delete Account'
+api: 'DELETE /api/v1/accounts/{account_id}'
+description: 'Delete a social media account'
+---
+
+## Delete Account
+
+Permanently deletes a social media account connection. This will revoke PostMaster's access to the account, and any scheduled posts for this account will be cancelled.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField path="account_id" type="string" required>
+  The unique identifier of the account to delete
+</ParamField>
+
+### Response
+
+<ResponseField name="message" type="string">
+  Confirmation message
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "message": "Account deleted successfully"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'accounts' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Account not found or access denied to the account's workspace
+</ResponseField> 

@@ -1,0 +1,47 @@
+---
+title: 'Delete Post'
+api: 'DELETE /api/v1/posts/{post_id}'
+description: 'Delete an existing post'
+---
+
+## Delete Post
+
+Permanently deletes a post. If the post is scheduled, it will be cancelled. If the post has already been published, the API post record will be deleted but the actual posts on social media platforms will remain.
+
+### Request
+
+<ParamField header="Authorization" required>
+  Bearer token for authentication
+</ParamField>
+
+<ParamField path="post_id" type="string" required>
+  The unique identifier of the post to delete
+</ParamField>
+
+### Response
+
+<ResponseField name="message" type="string">
+  Confirmation message
+</ResponseField>
+
+<ResponseExample>
+```json
+{
+  "message": "Post deleted successfully"
+}
+```
+</ResponseExample>
+
+### Error Codes
+
+<ResponseField name="401" type="Unauthorized">
+  Missing or invalid API token
+</ResponseField>
+
+<ResponseField name="403" type="Forbidden">
+  Token does not have 'posts' permission
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Post not found or access denied to the post's workspace
+</ResponseField> 
