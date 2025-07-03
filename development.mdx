@@ -1,107 +1,184 @@
 ---
-title: 'Development'
-description: 'Preview changes locally to update your docs'
+title: 'API Integration'
+description: 'Learn how to integrate PostSyncer with your applications'
 ---
 
 <Info>
-  **Prerequisite**: Please install Node.js (version 19 or higher) before proceeding. <br />
-  Please upgrade to ```docs.json``` before proceeding and delete the legacy ```mint.json``` file.
+  **Prerequisite**: To use the PostSyncer API, you need an active PostSyncer account with API access enabled. All API plans include a free tier to get started.
 </Info>
 
-Follow these steps to install and run Mintlify on your operating system:
+## Getting Started with the API
 
-**Step 1**: Install Mintlify:
+Follow these steps to begin integrating the PostSyncer API with your applications:
+
+### Step 1: Create an API Token
+
+1. Log in to your PostSyncer account at [app.postsyncer.com](https://app.postsyncer.com)
+2. Navigate to your Account Settings
+3. Scroll down to the "API Tokens" section
+4. Click "Create New Token"
+5. Select the permissions your integration needs:
+   - `posts` - For managing social media posts
+   - `accounts` - For managing connected social accounts
+   - `campaigns` - For organizing posts into campaigns
+   - `labels` - For categorizing posts with labels
+   - `workspaces` - For accessing workspace information
+6. Name your token something descriptive (e.g., "Website Integration")
+7. Click "Create Token" and securely store the generated token
+
+<Warning>
+  Your API token is displayed only once. Be sure to copy and store it securely, as it provides access to your PostSyncer account.
+</Warning>
+
+### Step 2: Make Your First API Request
+
+Once you have your API token, you can begin making requests to the PostSyncer API. All requests should include your token in the Authorization header:
 
 <CodeGroup>
 
-  ```bash npm
-  npm i -g mintlify
-  ```
+```bash cURL
+curl -X GET "https://app.postsyncer.com/api/v1/workspaces" \
+  -H "Authorization: Bearer YOUR_API_TOKEN"
+```
 
-```bash yarn
-yarn global add mintlify
+```javascript Node.js
+const axios = require('axios');
+
+const fetchWorkspaces = async () => {
+  try {
+    const response = await axios.get('https://app.postsyncer.com/api/v1/workspaces', {
+      headers: {
+        'Authorization': 'Bearer YOUR_API_TOKEN'
+      }
+    });
+    
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error fetching workspaces:', error.response?.data || error.message);
+  }
+};
+
+fetchWorkspaces();
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_TOKEN'
+}
+
+response = requests.get('https://app.postsyncer.com/api/v1/workspaces', headers=headers)
+
+if response.status_code == 200:
+    print(response.json())
+else:
+    print(f"Error: {response.status_code}")
+    print(response.text)
 ```
 
 </CodeGroup>
 
-**Step 2**: Navigate to the docs directory (where the `docs.json` file is located) and execute the following command:
+## Common Use Cases
 
-```bash
-mintlify dev
-```
+Here are some popular ways to use the PostSyncer API:
 
-A local preview of your documentation will be available at `http://localhost:3000`.
+### 1. Automated Content Publishing
 
-### Custom Ports
+Set up your system to automatically create and schedule posts based on your business logic. This is useful for:
 
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. To run Mintlify on port 3333, for instance, use this command:
-
-```bash
-mintlify dev --port 3333
-```
-
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
-
-```md
-Port 3000 is already in use. Trying 3001 instead.
-```
-
-## Mintlify Versions
-
-Please note that each CLI release is associated with a specific version of Mintlify. If your local website doesn't align with the production version, please update the CLI:
+- E-commerce businesses posting new products
+- News sites sharing breaking stories
+- Content feeds that need to be shared on social media
 
 <CodeGroup>
 
-```bash npm
-npm i -g mintlify@latest
-```
+```javascript Node.js
+const axios = require('axios');
 
-```bash yarn
-yarn global upgrade mintlify
+const createPost = async (content, imageUrl, scheduleTime) => {
+  try {
+    const response = await axios.post('https://app.postsyncer.com/api/v1/posts', {
+      workspace_id: 1,
+      content: content,
+      media_urls: [imageUrl],
+      schedule_for: scheduleTime,
+      accounts: [{ id: 1 }, { id: 2 }]
+    }, {
+      headers: {
+        'Authorization': 'Bearer YOUR_API_TOKEN',
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    console.log('Post created:', response.data);
+  } catch (error) {
+    console.error('Error creating post:', error.response?.data || error.message);
+  }
+};
+
+// Example usage
+createPost(
+  'Check out our new product!',
+  'https://example.com/images/new-product.jpg',
+  '2023-12-15T15:30:00Z'
+);
 ```
 
 </CodeGroup>
 
-## Validating Links
+### 2. Content Calendar Integration
 
-The CLI can assist with validating reference links made in your documentation. To identify any broken links, use the following command:
+Integrate PostSyncer with your content calendar or CMS to streamline your content workflow:
 
-```bash
-mintlify broken-links
-```
+- Automatically create social media posts when new blog articles are published
+- Schedule social media campaigns alongside your marketing calendar
+- Sync content across your website and social platforms
 
-## Deployment
+### 3. Performance Analytics
 
-<Tip>
-  Unlimited editors available under the [Pro
-  Plan](https://mintlify.com/pricing) and above.
-</Tip>
+Pull data from PostSyncer to incorporate social media metrics into your custom dashboards:
 
-If the deployment is successful, you should see the following:
+- Analyze post performance across platforms
+- Track campaign effectiveness
+- Generate custom reports for clients or stakeholders
 
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
+## Rate Limiting
 
-## Code Formatting
+To ensure system stability, the PostSyncer API enforces rate limits:
 
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
+- Free tier: 60 requests per minute
+- Professional tier: 120 requests per minute
+- Enterprise tier: 300 requests per minute
 
-## Troubleshooting
+If you exceed your rate limit, you'll receive a `429 Too Many Requests` response. Implement proper error handling and backoff strategies in your applications.
 
-<AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
+## Testing Your Integration
 
-    This may be due to an outdated version of node. Try the following:
-    1. Remove the currently-installed version of mintlify: `npm remove -g mintlify`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall mintlify: `npm install -g mintlify`
-  </Accordion>
+We recommend testing your integration in a controlled environment before deploying to production:
 
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the \~/.mintlify folder. Afterwards, run `mintlify dev` again.
-  </Accordion>
-</AccordionGroup>
+1. Create a separate workspace in your PostSyncer account for testing
+2. Generate a test API token with limited permissions
+3. Run test scenarios against this workspace
+4. Verify the expected behavior in the PostSyncer dashboard
 
-Curious about what changed in the CLI version? [Check out the CLI changelog.](https://www.npmjs.com/package/mintlify?activeTab=versions)
+## Need Help?
+
+If you encounter any issues or have questions about the API:
+
+<CardGroup>
+  <Card
+    title="API Reference"
+    icon="book-open"
+    href="/api-reference/introduction"
+  >
+    Browse the complete API documentation
+  </Card>
+  <Card
+    title="Contact Support"
+    icon="headset"
+    href="mailto:support@postsyncer.com"
+  >
+    Our developer support team is ready to help
+  </Card>
+</CardGroup>

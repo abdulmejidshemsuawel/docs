@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "willow",
-  "name": "Mint Starter Kit",
+  "name": "PostSyncer Documentation",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -11,10 +11,10 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Platform Guide",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Getting Started",
             "pages": [
               "introduction",
               "quickstart",
@@ -22,14 +22,13 @@
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Features",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "essentials/multi-platform-publishing",
+              "essentials/scheduling",
+              "essentials/campaigns-labels",
+              "essentials/team-collaboration",
+              "essentials/analytics"
             ]
           }
         ]
@@ -38,18 +37,50 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "API Overview",
             "pages": [
               "api-reference/introduction"
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Posts",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/posts/list",
+              "api-reference/posts/create",
+              "api-reference/posts/get",
+              "api-reference/posts/update",
+              "api-reference/posts/delete"
+            ]
+          },
+          {
+            "group": "Accounts",
+            "pages": [
+              "api-reference/accounts/list",
+              "api-reference/accounts/delete"
+            ]
+          },
+          {
+            "group": "Campaigns",
+            "pages": [
+              "api-reference/campaigns/list",
+              "api-reference/campaigns/create",
+              "api-reference/campaigns/update",
+              "api-reference/campaigns/delete"
+            ]
+          },
+          {
+            "group": "Labels",
+            "pages": [
+              "api-reference/labels/list",
+              "api-reference/labels/create",
+              "api-reference/labels/update",
+              "api-reference/labels/delete"
+            ]
+          },
+          {
+            "group": "Workspaces",
+            "pages": [
+              "api-reference/workspaces/list"
             ]
           }
         ]
@@ -58,45 +89,44 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "anchor": "Help Center",
+          "href": "https://postsyncer.com/#faq",
+          "icon": "question-circle"
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://postsyncer.com/blog",
           "icon": "newspaper"
+        },
+        {
+          "anchor": "Status",
+          "href": "https://214186ac-8429-46b4-be3b-55ca1bb3a15b.site.hbuptime.com/",
+          "icon": "signal"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/logo.png",
+    "dark": "/logo/logo.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@postsyncer.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.postsyncer.com"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "twitter": "https://x.com/postsyncer",
+      "linkedin": "https://linkedin.com/company/postsyncer"
     }
   }
 }
